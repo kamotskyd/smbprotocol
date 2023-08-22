@@ -806,9 +806,9 @@ class EnumField(IntField):
 
 class FlagField(IntField):
 
-    def __init__(self, flag_type, flag_strict=False, **kwargs): #kamotskyd_dkp_271: make flags non-strict by default to pass on unknown values
+    def __init__(self, flag_type, flag_strict=True, **kwargs):
         self.flag_type = flag_type
-        self.flag_strict = flag_strict
+        self.flag_strict = False #kamotskyd_dkp_271: make flags non-strict by default to pass on unknown values
         super(FlagField, self).__init__(**kwargs)
 
     def set_flag(self, flag):
