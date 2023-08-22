@@ -808,7 +808,7 @@ class FlagField(IntField):
 
     def __init__(self, flag_type, flag_strict=True, **kwargs):
         self.flag_type = flag_type
-        self.flag_strict = False #kamotskyd_dkp_271: make flags non-strict by default to pass on unknown values
+        self.flag_strict = flag_strict
         super(FlagField, self).__init__(**kwargs)
 
     def set_flag(self, flag):
@@ -817,10 +817,10 @@ class FlagField(IntField):
             if flag == value:
                 valid = True
                 break
-
-        if not valid and self.flag_strict:
-            raise ValueError("Flag value does not exist in flag type %s"
-                             % self.flag_type)
+        # kamotskyd_dkp_271: make flags non-strict by default to pass on unknown values
+        # if not valid and self.flag_strict:
+        #     raise ValueError("Flag value does not exist in flag type %s"
+        #                      % self.flag_type)
         self.set_value(self.value | flag)
 
     def has_flag(self, flag):
@@ -832,10 +832,10 @@ class FlagField(IntField):
         for value in vars(self.flag_type).values():
             if isinstance(value, int):
                 current_val &= ~value
-        if current_val != 0 and self.flag_strict:
-            raise ValueError("Invalid flag for field %s value set %d"
-                             % (self.name, current_val))
-
+        # kamotskyd_dkp_271: make flags non-strict by default to pass on unknown values
+        # if current_val != 0 and self.flag_strict:
+        #     raise ValueError("Invalid flag for field %s value set %d"
+        #                      % (self.name, current_val))
         return int_value
 
     def _to_string(self):
